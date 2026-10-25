@@ -87,7 +87,7 @@ $("add").onclick=function(){open(null,ds(new Date()))};
 $("vw").onclick=function(){st.view="week";render()};$("vm").onclick=function(){st.view="month";render()};
 $("accent").onchange=function(){document.documentElement.dataset.accent=this.value;save()};
 $("mode").onclick=function(){var r=document.documentElement,dark=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=dark?"light":"dark";save()};
-var o=load();
+var o=load();document.documentElement.dataset.accent="ocean";
 if(o){if(o.accent){$("accent").value=o.accent;document.documentElement.dataset.accent=o.accent}if(o.theme)document.documentElement.dataset.theme=o.theme}
 if(!o||!st.events.length&&!o)seed();
 render();
