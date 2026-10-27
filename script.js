@@ -185,20 +185,22 @@ function parseNoteRange(note){
   var iso=(t.match(/\b\d{4}-\d{1,2}-\d{1,2}\b/g)||[]).map(function(x){var p=x.split("-");return isoD(+p[0],+p[1],+p[2])}).sort();
   if(iso.length>=2){r.from=iso[0];r.to=iso[iso.length-1];return r}
   if(iso.length===1){if(endKw&&!startKw)r.to=iso[0];else r.from=iso[0];return r}
-  var dre=new RegExp("\\b("+MONRE+")\\b\\.?\\s*(\\d{1,2})(?!\\d)(?:st|nd|rd|th)?(?:,?\\s*((?:19|20)\\d{2}))?","g"),dl=[];
-  while((m=dre.exec(t)))dl.push({y:m[3]?+m[3]:Y,m:monNum(m[1]),d:+m[2],ey:!!m[3]});
-  if(dl.length){var a=dl[0],b=dl[dl.length-1];
-    if(dl.length>=2){r.from=isoD(a.y,a.m,a.d);r.to=isoD(b.y,b.m,b.d);if(r.to<r.from&&!b.ey)r.to=isoD(b.y+1,b.m,b.d)}
-    else if(endKw&&!startKw)r.to=isoD(a.y,a.m,a.d);else r.from=isoD(a.y,a.m,a.d);
-    return done()}
-  var mre=new RegExp("\\b("+MONRE+")\\b","g"),ms=[];
-  while((m=mre.exec(t)))ms.push(monNum(m[1]));
-  if(!ms.length)return null;
-  var m1=ms[0],m2=ms[ms.length-1];
-  if(ms.length>=2&&m1!==m2){var y1=(m2<m1&&hasY)?Y-1:Y,y2=m2<m1?y1+1:y1;r.from=isoD(y1,m1,1);r.to=isoD(y2,m2,lastDay(y2,m2))}
-  else if(endKw&&!startKw)r.to=isoD(Y,m1,lastDay(Y,m1));
-  else if(startKw&&!endKw)r.from=isoD(Y,m1,1);
-  else{r.from=isoD(Y,m1,1);r.to=isoD(Y,m1,lastDay(Y,m1))}
+  var tre=new RegExp("\\b("+MONRE+")\\b\\.?(?:\\s*(\\d{1,2})(?!\\d)(?:st|nd|rd|th)?)?(?:,?\\s*((?:19|20)\\d{2}))?","g"),tk=[];
+  while((m=tre.exec(t)))tk.push({m:monNum(m[1]),d:m[2]?+m[2]:0,y:m[3]?+m[3]:0});
+  if(!tk.length)return null;
+  function key(x,e){return x.m*100+(x.d||(e?31:1))}
+  var a=tk[0],b=tk[tk.length-1];
+  if(tk.length>=2&&!(a.m===b.m&&a.d===b.d)){
+    if(a.y&&!b.y){b.y=a.y;if(key(b,1)<key(a))b.y++}
+    else if(b.y&&!a.y){a.y=b.y;if(key(a)>key(b,1))a.y--}
+    else if(!a.y&&!b.y){a.y=b.y=Y;if(key(b,1)<key(a))b.y++}
+    r.from=isoD(a.y,a.m,a.d||1);r.to=isoD(b.y,b.m,b.d||lastDay(b.y,b.m))}
+  else{
+    var y=a.y||Y;
+    if(a.d){if(endKw&&!startKw)r.to=isoD(y,a.m,a.d);else r.from=isoD(y,a.m,a.d)}
+    else if(endKw&&!startKw)r.to=isoD(y,a.m,lastDay(y,a.m));
+    else if(startKw&&!endKw)r.from=isoD(y,a.m,1);
+    else{r.from=isoD(y,a.m,1);r.to=isoD(y,a.m,lastDay(y,a.m))}}
   return done()}
 function applyRange(items,from,to){
   var out=[],skipped=0;
