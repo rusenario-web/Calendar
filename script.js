@@ -47,6 +47,7 @@ function render(){
       h2+='</div>'}
     v.innerHTML=h2+'</div>';
   }
+  $("jm").value=c.getMonth();$("jy").value=c.getFullYear();
   $("vw").className=st.view==="week"?"on":"";$("vm").className=st.view==="month"?"on":"";
 }
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
@@ -87,6 +88,12 @@ $("add").onclick=function(){open(null,ds(new Date()))};
 $("vw").onclick=function(){st.view="week";render()};$("vm").onclick=function(){st.view="month";render()};
 $("accent").onchange=function(){document.documentElement.dataset.accent=this.value;save()};
 $("mode").onclick=function(){var r=document.documentElement,dark=r.dataset.theme==="dark"||(!r.dataset.theme&&matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=dark?"light":"dark";save()};
+var MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+$("jm").innerHTML=MONTHS.map(function(m,i){return '<option value="'+i+'">'+m+'</option>'}).join("");
+var yo="";for(var yy=1900;yy<=2100;yy++)yo+='<option value="'+yy+'">'+yy+'</option>';
+$("jy").innerHTML=yo;
+function jump(){var y=+$("jy").value,m=+$("jm").value,d=Math.min(st.cur.getDate(),new Date(y,m+1,0).getDate());st.cur=new Date(y,m,d);render()}
+$("jm").onchange=jump;$("jy").onchange=jump;
 var o=load();document.documentElement.dataset.accent="ocean";
 if(o){if(o.accent){$("accent").value=o.accent;document.documentElement.dataset.accent=o.accent}if(o.theme)document.documentElement.dataset.theme=o.theme}
 if(!o||!st.events.length&&!o)seed();
