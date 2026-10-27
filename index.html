@@ -18,7 +18,7 @@
 </header>
 <div class="bar toolbar" style="justify-content:space-between;margin-bottom:12px">
   <div class="bar"><button id="prev">‹</button><span class="title" id="ttl"></span><button id="next">›</button><button id="tod">Today</button><select id="jm" title="Jump to month"></select><select id="jy" title="Jump to year"></select></div>
-  <button class="primary" id="add">+ Add class / event</button>
+  <div class="bar"><button id="imp-open">📎 Import from file</button><button class="primary" id="add">+ Add class / event</button></div>
 </div>
 <div class="card scroll" id="view"></div>
 </div>
@@ -32,6 +32,23 @@
   <label>Notes</label><textarea id="f-note" rows="2" placeholder="Room, teacher, etc."></textarea>
   <label>Color</label><div class="sw" id="sw"></div>
   <div class="act"><button class="danger" id="del">Delete</button><button id="cancel">Cancel</button><button class="primary" id="save">Save</button></div>
+</dialog>
+
+<dialog id="imp">
+  <h3 style="margin:0 0 4px">Import schedule from a file</h3>
+  <label>Scan method</label>
+  <select id="mode2"><option value="basic">Basic scan: free, stays in your browser</option><option value="ai">AI scan: much more accurate, uses your Anthropic API key</option></select>
+  <div id="aibox" hidden>
+    <input type="password" id="akey" placeholder="Anthropic API key (starts with sk-ant-)" autocomplete="off">
+    <label><input type="checkbox" id="arem"> Remember the key on this device</label>
+    <div class="hint">The AI scan sends your file to Anthropic to read it, and usage is billed to your API account. Your key stays in this browser and is only sent to Anthropic. Only use it on your own device.</div>
+  </div>
+  <div class="hint" style="margin-top:8px">Upload a photo, PDF, Word (.docx) or text file. Basic scan works best with lines like <b>Monday 8:00-9:30 Math</b>; the AI scan also handles timetable grids and messy photos.</div>
+  <label class="drop" id="drop" for="file">📎 Click to choose a file, or drag and drop it here<br><small>JPG, PNG, PDF, DOCX, TXT, CSV</small></label>
+  <input type="file" id="file" accept="image/*,.pdf,.docx,.txt,.csv,.tsv,.md" hidden>
+  <div id="istatus" class="hint"></div>
+  <div id="ilist"></div>
+  <div class="act"><button id="icancel">Close</button><button class="primary" id="iadd" disabled>Add selected to calendar</button></div>
 </dialog>
 
 <script src="script.js"></script>
