@@ -29,6 +29,7 @@
   <label>Date</label><input type="date" id="f-date" min="1900-01-01" max="2100-12-31">
   <div class="row"><div><label>Start</label><input type="time" id="f-start"></div><div><label>End</label><input type="time" id="f-end"></div></div>
   <label><input type="checkbox" id="f-rep"> Repeat every week</label>
+  <label>Repeat until (optional)</label><input type="date" id="f-until" min="1900-01-01" max="2100-12-31">
   <label>Notes</label><textarea id="f-note" rows="2" placeholder="Room, teacher, etc."></textarea>
   <label>Color</label><div class="sw" id="sw"></div>
   <div class="act"><button class="danger" id="del">Delete</button><button id="cancel">Cancel</button><button class="primary" id="save">Save</button></div>
@@ -36,6 +37,10 @@
 
 <dialog id="imp">
   <h3 style="margin:0 0 4px">Import schedule from a file</h3>
+  <label>Notes (optional)</label>
+  <textarea id="inote" rows="2" placeholder="e.g. Only put this schedule from November to December"></textarea>
+  <div class="row"><div><label>Start date (optional)</label><input type="date" id="ifrom" min="1900-01-01" max="2100-12-31"></div><div><label>End date (optional)</label><input type="date" id="ito" min="1900-01-01" max="2100-12-31"></div></div>
+  <div class="hint" id="inhint"></div>
   <label>Scan method</label>
   <select id="mode2"><option value="basic">Basic scan: free, stays in your browser</option><option value="ai">AI scan: much more accurate, uses your Anthropic API key</option></select>
   <div id="aibox" hidden>
