@@ -17,7 +17,7 @@
   </div>
 </header>
 <div class="bar toolbar" style="justify-content:space-between;margin-bottom:12px">
-  <div class="bar"><button id="prev">‹</button><span class="title" id="ttl"></span><button id="next">›</button><button id="tod">Today</button></div>
+  <div class="bar"><button id="prev">‹</button><span class="title" id="ttl"></span><button id="next">›</button><button id="tod">Today</button><select id="jm" title="Jump to month"></select><select id="jy" title="Jump to year"></select></div>
   <button class="primary" id="add">+ Add class / event</button>
 </div>
 <div class="card scroll" id="view"></div>
@@ -26,7 +26,7 @@
 <dialog id="dlg">
   <h3 id="dt" style="margin:0 0 4px">Add event</h3>
   <label>Title</label><input type="text" id="f-title" placeholder="e.g. Math class">
-  <label>Date</label><input type="date" id="f-date">
+  <label>Date</label><input type="date" id="f-date" min="1900-01-01" max="2100-12-31">
   <div class="row"><div><label>Start</label><input type="time" id="f-start"></div><div><label>End</label><input type="time" id="f-end"></div></div>
   <label><input type="checkbox" id="f-rep"> Repeat every week</label>
   <label>Notes</label><textarea id="f-note" rows="2" placeholder="Room, teacher, etc."></textarea>
